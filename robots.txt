@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://arunchakra.github.io/sitemap.xml
+Sitemap: https://arunchakra.com/sitemap.xml
