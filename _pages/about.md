@@ -2,20 +2,21 @@
 layout: about
 title: about
 permalink: /
-subtitle: Clinical research in otolaryngology / head and neck surgery.
+subtitle: MD/PhD candidate, UCLA-Caltech MSTP.
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>ac994@cornell.edu</p>
+    <p>AChakravorty@mednet.ucla.edu</p>
+    <p>chakra@caltech.edu</p>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 
 announcements:
-  enabled: true # includes a list of news items
+  enabled: false # includes a list of news items
   scrollable: true # adds a vertical scroll bar if there are more than 3 news items
   limit: 5 # leave blank to include all the news in the `_news` folder
 
@@ -25,10 +26,10 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am a clinical researcher focused on otolaryngology — head and neck surgery, with current work in skull base oncology and cranial nerve dysfunction.
+I am drawn to **genetics**: how genes specify the identity of cells, and how those cells coordinate to give a tissue its architecture and rhythm. In my PhD in the [Cai Lab](https://www.cai-lab.org/) at Caltech, I asked a deceptively simple version of that question: can the *spatial* arrangement of cells tell us about their *temporal* dynamics? With in-situ spatial transcriptomics ([seqFISH+](https://www.cai-lab.org/)), we showed that a single snapshot of the seminiferous epithelium gives us a timeline of the entire process of spermatogenesis; from that timeline, we discovered that Sertoli cells carry their own **intrinsic transcriptional clock**, one that synchronizes germ-cell development across space and time and seems to create the foundational tissue architecture ([*Cell*, 2026](https://www.cell.com/cell/fulltext/S0092-8674%2826%2900471-X)).
 
-<!-- TODO: Replace this paragraph with your bio. Mention your training, your current role/affiliation, the questions that drive your research, and any clinical interests. -->
+I'm now in my clinical years, still figuring out where in medicine I want to go. What stays constant is what draws me: **tissue architecture and function**, how cells arrange themselves to let a tissue do its job, and what breaks down when that arrangement is lost. My goal is to understand that well enough to one day give patients back the function they've lost.
 
-<!-- TODO: Drop a headshot at assets/img/prof_pic.jpg (or update the `image` field above). -->
+---
 
-Edit `_bibliography/papers.bib` to populate the publications page. Add news items as files in `_news/`. Configure social/scholar links in `_data/socials.yml`.
+*Fun fact: if you're in dark mode, the background is raw imaging data of RNA dots across a small part of a tissue section.*

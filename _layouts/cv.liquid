@@ -120,30 +120,48 @@ layout: default
           </div>
         {% endif %}
 
-        <!-- RenderCV Sections - Merge Experience and Volunteer -->
-        {% comment %} First, combine Experience and Volunteer entries {% endcomment %}
-        {% assign empty_array = '' | split: ',' %}
-        {% assign exp = cv.sections.Experience | default: empty_array %}
-        {% assign vol = cv.sections.Volunteer | default: empty_array %}
-        {% assign combined_experience = exp | concat: vol %}
-        {% if combined_experience.size > 0 %}
-          <a class="anchor" id="experience"></a>
+        <!-- Education first (per page convention) -->
+        {% if cv.sections.Education and cv.sections.Education.size > 0 %}
+          <a class="anchor" id="education"></a>
           <div class="card mt-3 p-3">
-            <h3 class="card-title font-weight-medium">Experience</h3>
+            <h3 class="card-title font-weight-medium">Education</h3>
             <div>
-              {% assign entries = combined_experience %}
+              {% assign entries = cv.sections.Education %}
+              {% include cv/education.liquid %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Research (Experience entries) -->
+        {% if cv.sections.Experience and cv.sections.Experience.size > 0 %}
+          <a class="anchor" id="research"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">Research</h3>
+            <div>
+              {% assign entries = cv.sections.Experience %}
               {% include cv/experience.liquid %}
             </div>
           </div>
         {% endif %}
 
-        {% comment %} Now render all other sections except Experience and Volunteer {% endcomment %}
+        <!-- Teaching (separate card) -->
+        {% if cv.sections.Teaching and cv.sections.Teaching.size > 0 %}
+          <a class="anchor" id="teaching"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">Teaching</h3>
+            <div>
+              {% assign entries = cv.sections.Teaching %}
+              {% include cv/experience.liquid %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% comment %} Now render all other sections, skipping Education/Experience/Teaching {% endcomment %}
         {% for section_pair in cv.sections %}
           {% assign section_title = section_pair[0] %}
           {% assign section_entries = section_pair[1] %}
 
-          {% comment %} Skip Experience and Volunteer as we've already processed them combined {% endcomment %}
-          {% if section_title == 'Experience' or section_title == 'Volunteer' %}
+          {% if section_title == 'Education' or section_title == 'Experience' or section_title == 'Teaching' %}
             {% continue %}
           {% endif %}
 

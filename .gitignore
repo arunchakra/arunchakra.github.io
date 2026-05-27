@@ -10,6 +10,16 @@ _site
 .venv
 assets/libs/
 assets/rendercv/rendercv_output/*.typ
+
+# Keep the CV private — never commit the CV PDF or any rendered CV output
+assets/pdf/cv.pdf
+assets/rendercv/rendercv_output/*.pdf
+
+# stray backup files
+*.bak
+
+# unpublished papers — keep out of the public repo until ready to release
+_bibliography/papers_pending.bib
 Gemfile.lock
 node_modules/
 vendor

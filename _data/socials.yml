@@ -2,8 +2,8 @@
 # Plugin docs: https://github.com/george-gca/jekyll-socials
 # TODO: Fill in the IDs you have. Comment out (or delete) lines you don't want shown.
 
-# cv_pdf: /assets/pdf/cv.pdf       # add a CV PDF to assets/pdf/ then uncomment
-email: ac994@cornell.edu
+cv_pdf: /assets/pdf/cv.pdf
+email: AChakravorty@mednet.ucla.edu
 github_username: arunchakra
 # scholar_userid:                  # your Google Scholar user ID (the qc6CJjYAAAAJ part of the URL)
 # orcid_id:                        # e.g., 0000-0000-0000-0000

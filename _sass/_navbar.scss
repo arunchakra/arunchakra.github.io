@@ -59,18 +59,61 @@
     color: var(--global-text-color);
   }
 
+  // Center the nav items horizontally regardless of brand presence.
+  .navbar-collapse {
+    justify-content: center;
+  }
+
+  .navbar-nav {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
   .navbar-nav .nav-item .nav-link {
     color: var(--global-text-color);
+    padding: 0.4rem 0.85rem;
+    position: relative;
+    letter-spacing: 0.01em;
+    transition: color 0.18s ease;
+
+    // Subtle underline that grows on hover.
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0.85rem;
+      right: 0.85rem;
+      bottom: 0.15rem;
+      height: 2px;
+      background-color: var(--global-theme-color);
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
 
     &:hover {
       color: var(--global-hover-color);
+
+      &::after {
+        opacity: 0.6;
+        transform: scaleX(1);
+      }
     }
   }
 
   .navbar-nav .nav-item.active > .nav-link {
     background-color: inherit;
-    font-weight: bolder;
+    font-weight: 600;
     color: var(--global-theme-color);
+
+    &::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
 
     &:hover {
       color: var(--global-hover-color);

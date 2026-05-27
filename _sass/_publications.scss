@@ -31,6 +31,73 @@
     text-align: right;
   }
 
+  // Collapsible publication category sections (Basic Science / Clinical Research).
+  details.pub-section {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    &[open] {
+      margin-bottom: 2rem;
+    }
+
+    summary.category-header {
+      cursor: pointer;
+      list-style: none;
+      font-weight: 600;
+      font-size: 1.8rem;
+      letter-spacing: -0.01em;
+      padding: 0.4rem 2rem 0.5rem 0;
+      margin-bottom: 1.25rem;
+      color: var(--global-theme-color);
+      border-bottom: 2px solid currentColor;
+      position: relative;
+      user-select: none;
+      transition: opacity 0.15s ease;
+
+      .category-count {
+        font-weight: 400;
+        font-size: 0.8em;
+        opacity: 0.6;
+        letter-spacing: 0;
+      }
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      // Custom chevron — rotates when section is open.
+      &::after {
+        content: "";
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        width: 0.65rem;
+        height: 0.65rem;
+        border-right: 3px solid currentColor;
+        border-bottom: 3px solid currentColor;
+        transform: translateY(-75%) rotate(-45deg);
+        transition: transform 0.2s ease;
+      }
+    }
+
+    &[open] > summary.category-header::after {
+      transform: translateY(-25%) rotate(45deg);
+    }
+
+    &.pub-section-clinical {
+      // Scope a blue accent to the clinical section. Overriding the theme
+      // variables here cascades into the abbr badges, hover borders, author
+      // underlines, and button hovers within this <details>, while
+      // pub-section-basic continues to inherit the page's orange.
+      --global-theme-color: #2774ae; // UCLA blue
+      --global-hover-color: #2774ae;
+    }
+  }
+
   ol.bibliography {
     list-style: none;
     padding: 0;
@@ -38,19 +105,44 @@
 
     li {
       margin-bottom: 1rem;
+      padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+      border-radius: 0.4rem;
+      border-left: 3px solid transparent;
+      transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.025);
+        border-left-color: var(--global-theme-color);
+      }
 
       .preview {
         display: inline-block;
       }
 
       .abbr {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
+        padding-left: 0;
+        padding-right: 0;
 
         abbr {
           display: inline-block;
+          width: 100%;
           background-color: var(--global-theme-color);
           margin-bottom: 0.5rem;
           color: var(--global-card-bg-color) !important;
+          font-size: 0.85rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          padding: 0.4rem 0.5rem;
+          border-radius: 0.35rem;
+          white-space: normal;
+          word-break: normal;
+          line-height: 1.2;
+          text-align: center;
 
           a {
             color: white;
@@ -102,19 +194,37 @@
         a.btn {
           color: var(--global-text-color);
           border: 1px solid var(--global-text-color);
-          padding-left: 1rem;
-          padding-right: 1rem;
-          padding-top: 0.25rem;
-          padding-bottom: 0.25rem;
+          border-radius: 0.4rem;
+          padding: 0.3rem 0.85rem;
           margin-left: 0;
+          font-size: 0.85rem;
+          font-weight: 500;
+          letter-spacing: 0.01em;
+          transition:
+            color 0.15s ease,
+            border-color 0.15s ease,
+            background-color 0.15s ease,
+            transform 0.15s ease;
 
           &:hover {
-            color: var(--global-theme-color);
+            color: var(--global-card-bg-color);
             border-color: var(--global-theme-color);
+            background-color: var(--global-theme-color);
+            transform: translateY(-1px);
           }
         }
         a.award.btn {
           border-color: var(--global-highlight-color);
+        }
+        a.btn.press-btn {
+          color: #3f93c6;
+          border-color: #3f93c6;
+
+          &:hover {
+            color: var(--global-card-bg-color);
+            border-color: #3f93c6;
+            background-color: #3f93c6;
+          }
         }
       }
 
@@ -186,3 +296,4 @@
 .citation-number {
   color: var(--global-theme-color);
 }
+
