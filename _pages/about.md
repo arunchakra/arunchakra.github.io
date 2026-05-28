@@ -32,4 +32,4 @@ I'm now in my clinical years and figuring out where in medicine I want to go. Wh
 
 ---
 
-*Fun fact: if you're in dark mode, the background is raw imaging data of RNA dots across a small part of a tissue section.*
+<em><a href="/assets/blossom/" style="text-decoration:none;color:#c69aa9;">Fun</a> fact: if you're in dark mode, the background is raw imaging data of RNA dots across a small part of a tissue section.</em>
