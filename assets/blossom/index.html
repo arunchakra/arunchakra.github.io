@@ -17,8 +17,20 @@
   }
   .banner { text-align: center; padding: 28px 20px 18px; }
   .banner h1 { margin: 0 0 6px; font-size: 28px; font-weight: 800; letter-spacing: 0.5px; }
-  .banner p { margin: 0; font-size: 16px; opacity: 0.9; }
-  .game-wrap { display: flex; justify-content: center; padding: 0 12px 28px; }
+  .banner p { margin: 0 0 16px; font-size: 16px; opacity: 0.9; }
+  .back-btn {
+    display: inline-block; padding: 10px 22px;
+    background: #fff; color: #c0367e;
+    text-decoration: none; font-weight: 700; font-size: 14px;
+    letter-spacing: 0.5px; border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(180, 40, 120, 0.25);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(180, 40, 120, 0.32);
+  }
+  .game-wrap { display: flex; justify-content: center; padding: 8px 12px 28px; }
   iframe {
     width: 100%; max-width: 600px; height: 780px;
     border: 0; border-radius: 20px;
@@ -31,6 +43,7 @@
   <div class="banner">
     <h1>🌸 You found an easter egg! 🌸</h1>
     <p>Congratulations and have fun!</p>
+    <a href="/" class="back-btn">← TAKE ME BACK!!!</a>
   </div>
   <div class="game-wrap">
     <iframe src="snake.html" allow="autoplay" title="Blossom Snake"></iframe>
