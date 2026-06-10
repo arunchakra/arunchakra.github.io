@@ -9,8 +9,8 @@ profile:
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>AChakravorty at mednet dot ucla dot edu</p>
-    <p>chakra at caltech dot edu</p>
+    <p style="font-size:0.78em;white-space:nowrap;margin:0.2em 0;">AChakravorty at mednet dot ucla dot edu</p>
+    <p style="font-size:0.78em;white-space:nowrap;margin:0.2em 0;">chakra at caltech dot edu</p>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: false # social/contact icons removed from the bottom of the page
