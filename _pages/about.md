@@ -1,7 +1,7 @@
 ---
 layout: about
 title: about
-permalink: /
+permalink: /about/
 subtitle: MD/PhD candidate, UCLA-Caltech MSTP.
 
 profile:
