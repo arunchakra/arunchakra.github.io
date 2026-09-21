@@ -132,6 +132,19 @@
   .tagline{ font-family:"Newsreader",Georgia,serif; font-style:italic; font-weight:400;
     font-size:clamp(1.2rem,2.5vw,1.6rem); line-height:1.45; color:var(--ink-soft);
     max-width:34ch; margin:0; text-wrap:pretty; }
+  /* ---------- coupled-oscillator figure (hero) ---------- */
+  .hero-row{ display:flex; align-items:center; gap:44px; flex-wrap:wrap; }
+  .hero-text{ flex:1 1 320px; min-width:0; }
+  .osc{ margin:0; flex:0 0 auto; width:208px; display:flex; flex-direction:column; align-items:center; gap:9px; }
+  .osc canvas{ width:208px; height:208px; display:block; cursor:pointer; border-radius:50%; }
+  .osc-cap{ font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); text-align:center; line-height:1.6; }
+  .osc-cap span{ display:block; white-space:nowrap; }
+  @media (max-width:720px){
+    .hero-row{ gap:26px; }
+    .osc{ width:164px; } .osc canvas{ width:164px; height:164px; }
+  }
+
 
   .rule-wide{ border:0; border-top:1px solid var(--rule); margin:26px 0 0; }
 
@@ -274,9 +287,9 @@
 
   <main id="main">
     <header class="hero" id="top">
-      <p class="eyebrow">MD/PhD candidate &middot; UCLA&ndash;Caltech MSTP</p>
+      <div class="hero-row"><div class="hero-text"><p class="eyebrow">MD/PhD candidate &middot; UCLA&ndash;Caltech MSTP</p>
       <h1 class="name">Arun Chakravorty</h1>
-      <p class="tagline">I study how cells coordinate across space and time to build tissue architecture and function, and how the loss of that order underlies disease.</p>
+      <p class="tagline">I study how cells coordinate across space and time to build tissue architecture and function, and how the loss of that order underlies disease.</p></div><figure class="osc" title="Coupled cellular clocks. Click to perturb; watch the tissue re-coordinate."><canvas id="oscCanvas" width="208" height="208" role="img" aria-label="Animation: a tissue of coupled cellular clocks self-organizing into a rotating wave"></canvas><figcaption class="osc-cap"><span>coupled clocks</span><span>click to perturb</span></figcaption></figure></div>
     </header>
 
     <hr class="rule-wide">
@@ -435,6 +448,90 @@
       try{ localStorage.setItem('theme',next); }catch(e){}
       sync();
     });
+  })();
+</script>
+
+<script>
+  /* Coupled cellular clocks: a hex "tissue" of phase oscillators (Kuramoto), each coupled only
+     to its six neighbours. Local coordination alone organises them into a rotating spiral wave. */
+  (function(){
+    var cv=document.getElementById('oscCanvas'); if(!cv||!cv.getContext) return;
+    var ctx=cv.getContext('2d');
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- lattice: pointy-top hex grid, masked to a disc
+    var RINGS=9, cells=[], idx={}, S3=Math.sqrt(3);
+    for(var q=-RINGS;q<=RINGS;q++) for(var r=-RINGS;r<=RINGS;r++){
+      if(Math.abs(-q-r)>RINGS) continue;
+      var x=S3*(q+r/2), y=1.5*r, d=Math.sqrt(x*x+y*y);
+      if(d>13.2) continue;
+      idx[q+','+r]=cells.length; cells.push({q:q,r:r,x:x,y:y,d:d,th:0,w:1,nb:[]});
+    }
+    var DIRS=[[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]], Rmax=0;
+    cells.forEach(function(c){ if(c.d>Rmax) Rmax=c.d;
+      DIRS.forEach(function(v){ var k=idx[(c.q+v[0])+','+(c.r+v[1])]; if(k!==undefined) c.nb.push(k); }); });
+
+    // --- seed: a phase defect at the centre + gentle twist; outer cells run a touch faster
+    cells.forEach(function(c){
+      var u=c.d/Rmax;
+      c.th=Math.atan2(c.y,c.x)+2.2*u;
+      c.w=1+0.10*u+(Math.random()-0.5)*0.05;
+    });
+
+    // --- theme colours (re-read so the light/dark toggle recolours it live)
+    var col={accent:'#c2521f',panel:'#f1ebdd',rule:'#d3cab6'};
+    function readColors(){ var cs=getComputedStyle(document.documentElement);
+      ['accent','panel','rule'].forEach(function(k){ var v=cs.getPropertyValue('--'+k).trim(); if(/^#/.test(v)) col[k]=v; }); }
+    function rgba(hex,a){ hex=hex.slice(1); if(hex.length===3) hex=hex.replace(/./g,function(c){return c+c;});
+      var n=parseInt(hex,16); return 'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')'; }
+
+    // --- sizing (crisp on retina)
+    var dpr=1;
+    function fit(){ dpr=Math.min(2,window.devicePixelRatio||1); var css=cv.clientWidth||208; cv.width=css*dpr; cv.height=css*dpr; }
+
+    // --- dynamics: dθ/dt = ω + K Σ sin(θ_j − θ_i) over neighbours
+    var K=0.55, DT=0.032, n=cells.length, dth=new Float32Array(n);
+    function step(){
+      for(var i=0;i<n;i++){ var c=cells[i], acc=0;
+        for(var j=0;j<c.nb.length;j++) acc+=Math.sin(cells[c.nb[j]].th-c.th);
+        dth[i]=c.w+K*acc; }
+      for(var k=0;k<n;k++) cells[k].th+=dth[k]*DT;
+    }
+
+    // --- render
+    function draw(){
+      var size=cv.width, cx=size/2, cy=size/2, scale=(size*0.5*0.85)/Rmax, r0=scale*0.5;
+      ctx.clearRect(0,0,size,size);
+      ctx.beginPath(); ctx.arc(cx,cy,size*0.5-dpr,0,Math.PI*2);
+      ctx.fillStyle=rgba(col.panel,0.92); ctx.fill();
+      ctx.lineWidth=dpr; ctx.strokeStyle=col.rule; ctx.stroke();
+      for(var i=0;i<n;i++){ var c=cells[i], a=0.5+0.5*Math.sin(c.th);
+        ctx.beginPath(); ctx.arc(cx+c.x*scale, cy+c.y*scale, r0*(0.42+0.58*a), 0, Math.PI*2);
+        ctx.fillStyle=rgba(col.accent, 0.16+0.84*a); ctx.fill(); }
+    }
+
+    // --- interaction: scramble phases near the pointer; the tissue re-coordinates
+    cv.addEventListener('pointerdown',function(e){
+      var b=cv.getBoundingClientRect(), size=cv.width, scale=(size*0.5*0.85)/Rmax;
+      var px=(e.clientX-b.left)*dpr-size/2, py=(e.clientY-b.top)*dpr-size/2, rad=size*0.2;
+      for(var i=0;i<n;i++){ var c=cells[i], dx=c.x*scale-px, dy=c.y*scale-py;
+        if(dx*dx+dy*dy<rad*rad) c.th+=(Math.random()-0.5)*Math.PI*1.7; }
+      if(reduce) draw();
+    });
+
+    // --- loop, gated on visibility
+    var running=false, frame=0, raf=0;
+    function loop(){ if(!running) return; if(++frame%20===0) readColors(); step(); draw(); raf=requestAnimationFrame(loop); }
+    function start(){ if(running||reduce) return; running=true; loop(); }
+    function stop(){ running=false; cancelAnimationFrame(raf); }
+
+    fit(); readColors(); for(var w=0;w<90;w++) step(); draw();
+    window.addEventListener('resize',function(){ fit(); draw(); });
+    if(reduce){ for(var w2=0;w2<400;w2++) step(); draw(); return; }
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(en){ en.forEach(function(x){ x.isIntersecting?start():stop(); }); },{threshold:0.05}).observe(cv);
+    } else start();
+    document.addEventListener('visibilitychange',function(){ document.hidden?stop():start(); });
   })();
 </script>
 </body>
