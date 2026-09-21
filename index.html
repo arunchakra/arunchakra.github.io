@@ -490,7 +490,7 @@
     function fit(){ dpr=Math.min(2,window.devicePixelRatio||1); var css=cv.clientWidth||208; cv.width=css*dpr; cv.height=css*dpr; }
 
     // --- dynamics: dθ/dt = ω + K Σ sin(θ_j − θ_i) over neighbours
-    var K=0.55, DT=0.032, n=cells.length, dth=new Float32Array(n);
+    var K=0.55, DT=0.008, n=cells.length, dth=new Float32Array(n);
     function step(){
       for(var i=0;i<n;i++){ var c=cells[i], acc=0;
         for(var j=0;j<c.nb.length;j++) acc+=Math.sin(cells[c.nb[j]].th-c.th);
@@ -525,9 +525,9 @@
     function start(){ if(running||reduce) return; running=true; loop(); }
     function stop(){ running=false; cancelAnimationFrame(raf); }
 
-    fit(); readColors(); for(var w=0;w<90;w++) step(); draw();
+    fit(); readColors(); for(var w=0;w<360;w++) step(); draw();
     window.addEventListener('resize',function(){ fit(); draw(); });
-    if(reduce){ for(var w2=0;w2<400;w2++) step(); draw(); return; }
+    if(reduce){ for(var w2=0;w2<1600;w2++) step(); draw(); return; }
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(en){ en.forEach(function(x){ x.isIntersecting?start():stop(); }); },{threshold:0.05}).observe(cv);
     } else start();
