@@ -144,15 +144,15 @@ newsletter:
 
 collections:
   books:
-    output: true
+    output: false
   news:
     defaults:
       layout: post
-    output: true
+    output: false
   projects:
-    output: true
+    output: false
   teachings:
-    output: true
+    output: false
 
 # -----------------------------------------------------------------------------
 # Jekyll settings
@@ -189,6 +189,18 @@ exclude:
   - package.json
   - package-lock.json
   - _pages/about_einstein.md
+  - _pages/about.md
+  - _pages/cv.md
+  - _pages/publications.md
+  - _pages/news.md
+  - _pages/projects.md
+  - _pages/books.md
+  - _pages/blossom.md
+  - _posts/
+  - _books/
+  - _news/
+  - _projects/
+  - _teachings/
   - purgecss.config.js
   - README.md
   - readme_preview/
