@@ -460,11 +460,11 @@
     var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // --- lattice: pointy-top hex grid, masked to a disc
-    var RINGS=9, cells=[], idx={}, S3=Math.sqrt(3);
+    var RINGS=28, cells=[], idx={}, S3=Math.sqrt(3);
     for(var q=-RINGS;q<=RINGS;q++) for(var r=-RINGS;r<=RINGS;r++){
       if(Math.abs(-q-r)>RINGS) continue;
       var x=S3*(q+r/2), y=1.5*r, d=Math.sqrt(x*x+y*y);
-      if(d>13.2) continue;
+      if(d>40.5) continue;
       idx[q+','+r]=cells.length; cells.push({q:q,r:r,x:x,y:y,d:d,th:0,w:1,nb:[]});
     }
     var DIRS=[[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]], Rmax=0;
@@ -499,15 +499,20 @@
     }
 
     // --- render
+    var LEVELS=32;
     function draw(){
-      var size=cv.width, cx=size/2, cy=size/2, scale=(size*0.5*0.85)/Rmax, r0=scale*0.5;
+      var size=cv.width, cx=size/2, cy=size/2, scale=(size*0.5*0.85)/Rmax, r0=scale*0.55;
       ctx.clearRect(0,0,size,size);
       ctx.beginPath(); ctx.arc(cx,cy,size*0.5-dpr,0,Math.PI*2);
       ctx.fillStyle=rgba(col.panel,0.92); ctx.fill();
       ctx.lineWidth=dpr; ctx.strokeStyle=col.rule; ctx.stroke();
-      for(var i=0;i<n;i++){ var c=cells[i], a=0.5+0.5*Math.sin(c.th);
-        ctx.beginPath(); ctx.arc(cx+c.x*scale, cy+c.y*scale, r0*(0.42+0.58*a), 0, Math.PI*2);
-        ctx.fillStyle=rgba(col.accent, 0.16+0.84*a); ctx.fill(); }
+      // batch dots by quantised activity: one path + fill per level instead of per cell
+      for(var i=0;i<n;i++){ var a=0.5+0.5*Math.sin(cells[i].th); cells[i].lv=a>=1?LEVELS-1:(a*LEVELS)|0; }
+      for(var b=0;b<LEVELS;b++){ var ab=(b+0.5)/LEVELS, rad=r0*(0.42+0.58*ab), any=false;
+        ctx.beginPath();
+        for(var j=0;j<n;j++){ if(cells[j].lv!==b) continue; var c=cells[j], x=cx+c.x*scale, y=cy+c.y*scale;
+          ctx.moveTo(x+rad,y); ctx.arc(x,y,rad,0,Math.PI*2); any=true; }
+        if(any){ ctx.fillStyle=rgba(col.accent,0.16+0.84*ab); ctx.fill(); } }
     }
 
     // --- interaction: scramble phases near the pointer; the tissue re-coordinates
@@ -520,14 +525,16 @@
     });
 
     // --- loop, gated on visibility
-    var running=false, frame=0, raf=0;
-    function loop(){ if(!running) return; if(++frame%20===0) readColors(); step(); draw(); raf=requestAnimationFrame(loop); }
+    var running=false, frame=0, raf=0, warm=1100;
+    function loop(){ if(!running) return; if(++frame%20===0) readColors();
+      if(warm>0){ for(var k=0;k<90&&warm>0;k++,warm--) step(); } else step();
+      draw(); raf=requestAnimationFrame(loop); }
     function start(){ if(running||reduce) return; running=true; loop(); }
     function stop(){ running=false; cancelAnimationFrame(raf); }
 
-    fit(); readColors(); for(var w=0;w<360;w++) step(); draw();
+    fit(); readColors(); draw();
     window.addEventListener('resize',function(){ fit(); draw(); });
-    if(reduce){ for(var w2=0;w2<1600;w2++) step(); draw(); return; }
+    if(reduce){ for(var w2=0;w2<2400;w2++) step(); draw(); return; }
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(en){ en.forEach(function(x){ x.isIntersecting?start():stop(); }); },{threshold:0.05}).observe(cv);
     } else start();
