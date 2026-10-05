@@ -4,7 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Arun Chakravorty</title>
-<meta name="description" content="Arun Chakravorty — MD/PhD candidate, UCLA–Caltech MSTP. Spatial and temporal tissue biology.">
+<meta name="description" content="MD/PhD candidate in the UCLA–Caltech MSTP, studying how cells coordinate to build tissue architecture and function.">
+<link rel="canonical" href="https://arunchakra.com/">
+<meta name="theme-color" content="#f7f3ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#15130f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Arun Chakravorty">
+<meta property="og:title" content="Arun Chakravorty">
+<meta property="og:description" content="MD/PhD candidate in the UCLA–Caltech MSTP, studying how cells coordinate to build tissue architecture and function.">
+<meta property="og:url" content="https://arunchakra.com/">
+<meta property="og:image" content="https://arunchakra.com/assets/img/prof_pic.jpg">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Arun Chakravorty","url":"https://arunchakra.com/"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -27,7 +41,10 @@
     /* dark-mode RNA imaging background (light mode: none) */
     --field-image:none;
     --field-opacity:0;
-    --maxw:920px;
+    --veil:transparent;        /* dark mode: soft reading veil behind the text column */
+    --maxw:960px;
+    --gutter:32px;
+    --rail:220px;
   }
   /* dark via explicit attribute OR OS preference (when not forced light) */
   html[data-theme="dark"]{
@@ -43,22 +60,23 @@
     --focus:#ff7a33;
     --field-image:url("/assets/img/dots-dark-bg.png");
     --field-opacity:1;
+    --veil:rgba(21,19,15,.5);
   }
   @media (prefers-color-scheme: dark){
     html:not([data-theme="light"]):not([data-theme="dark"]){
       --paper:#15130f; --panel:#1b1813; --ink:#e9e3d5; --ink-soft:#cfc7b5;
       --muted:#a59b87; --rule:#332e25; --rule-soft:#262219;
       --accent:#ff7a33; --accent-deep:#ff6c0c; --accent2:#56b6d6; --accent2-deep:#86d0ea; --accent3:#74c79b; --accent3-deep:#9bdcb9; --focus:#ff7a33;
-      --field-image:url("/assets/img/dots-dark-bg.png"); --field-opacity:1;
+      --field-image:url("/assets/img/dots-dark-bg.png"); --field-opacity:1; --veil:rgba(21,19,15,.5);
     }
   }
 
   *{box-sizing:border-box;}
-  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; font-size:15px; }
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; font-size:16px; }
   body{
     margin:0; background:var(--paper); color:var(--ink);
     font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-    font-size:15.5px; line-height:1.55;
+    font-size:16.5px; line-height:1.62;
     -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     font-feature-settings:"kern" 1,"liga" 1;
     transition:background-color .4s ease,color .4s ease;
@@ -82,21 +100,13 @@
     letter-spacing:.1em; text-transform:uppercase; z-index:10; }
   .skip:focus{ left:12px; top:12px; }
 
-  .sheet{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
-
-  /* ---------- folio ---------- */
-  .folio{
-    display:flex; align-items:baseline; justify-content:space-between; gap:16px;
-    padding:22px 0 0; font-family:"IBM Plex Mono",monospace;
-    font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
-  }
-  .folio .dot{ color:var(--accent); }
-  .folio span{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sheet{ max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);
+    background:linear-gradient(90deg,transparent,var(--veil) var(--gutter),var(--veil) calc(100% - var(--gutter)),transparent); }
 
   /* ---------- masthead ---------- */
   nav.masthead{
     position:sticky; top:0; z-index:30;
-    margin:0 -32px; padding:11px 32px;
+    margin:0 calc(-1 * var(--gutter)); padding:12px var(--gutter);
     border-bottom:1px solid var(--rule);
     background:color-mix(in srgb,var(--paper) 86%,transparent);
     -webkit-backdrop-filter:saturate(140%) blur(10px); backdrop-filter:saturate(140%) blur(10px);
@@ -104,125 +114,112 @@
     gap:20px; flex-wrap:wrap;
   }
   .masthead .mark{ font-family:"Fraunces",Georgia,serif; font-optical-sizing:auto;
-    font-weight:500; font-size:15px; letter-spacing:.01em; color:var(--ink); }
-  .mast-right{ display:flex; align-items:center; gap:18px; }
-  .navlinks{ display:flex; align-items:flex-start; gap:20px; font-family:"IBM Plex Mono",monospace;
-    font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
-  .navlinks a{ color:var(--muted); position:relative; padding-bottom:3px; transition:color .25s ease; }
-  .navlinks a.stack{ display:inline-block; line-height:1.16; }
-  .navlinks a .np{ display:block; font-size:9.5px; letter-spacing:.06em; color:var(--muted); margin-top:1px; }
+    font-weight:500; font-size:16px; letter-spacing:.01em; color:var(--ink); white-space:nowrap; }
+  .mast-right{ display:flex; align-items:center; gap:24px; }
+  .navlinks{ display:flex; align-items:center; gap:24px; font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; }
+  .navlinks a{ color:var(--muted); position:relative; padding:3px 0; white-space:nowrap; transition:color .25s ease; }
   .navlinks a:hover{ color:var(--ink); }
   .navlinks a[aria-current="page"]{ color:var(--ink); }
-  .navlinks a[aria-current="page"]::after{ content:""; position:absolute; left:0; right:0; bottom:-1px;
+  .navlinks a[aria-current="page"]::after{ content:""; position:absolute; left:0; right:0; bottom:-2px;
     height:1.5px; background:var(--accent); }
   .toggle{ font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
-    text-transform:uppercase; color:var(--muted); background:transparent;
+    text-transform:uppercase; color:var(--muted); background:transparent; white-space:nowrap;
     border:1px solid var(--rule); border-radius:999px; padding:5px 12px; cursor:pointer;
     display:inline-flex; align-items:center; gap:7px; transition:border-color .25s ease,color .25s ease; }
   .toggle:hover{ color:var(--ink); border-color:var(--accent); }
   .toggle .glow{ width:7px; height:7px; border-radius:50%; background:var(--accent); display:inline-block; }
 
   /* ---------- hero ---------- */
-  header.hero{ padding:38px 0 6px; }
+  header.hero{ padding:clamp(30px,5vw,60px) 0 8px; }
   .eyebrow{ font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.2em;
-    text-transform:uppercase; color:var(--accent-deep); margin:0 0 13px; }
+    text-transform:uppercase; color:var(--accent-deep); margin:0 0 16px; }
+  .eyebrow span{ white-space:nowrap; }
   h1.name{ font-family:"Fraunces",Georgia,serif; font-optical-sizing:auto; font-weight:500;
-    font-size:clamp(2.1rem,4.4vw,3rem); line-height:1.04; letter-spacing:-.012em;
-    margin:0 0 14px; text-wrap:balance; }
+    font-size:clamp(2.1rem,1.3rem + 3vw,3.4rem); line-height:1.02; letter-spacing:-.015em;
+    margin:0 0 16px; text-wrap:balance; }
   .tagline{ font-family:"Newsreader",Georgia,serif; font-style:italic; font-weight:400;
-    font-size:clamp(1.2rem,2.5vw,1.6rem); line-height:1.45; color:var(--ink-soft);
+    font-size:clamp(1.15rem,.95rem + .85vw,1.55rem); line-height:1.45; color:var(--ink-soft);
     max-width:34ch; margin:0; text-wrap:pretty; }
   /* ---------- coupled-oscillator figure (hero) ---------- */
-  .hero-row{ display:flex; align-items:center; gap:44px; flex-wrap:wrap; }
-  .hero-text{ flex:1 1 320px; min-width:0; }
-  .osc{ margin:0; flex:0 0 auto; width:208px; display:flex; flex-direction:column; align-items:center; gap:9px; }
-  .osc canvas{ width:208px; height:208px; display:block; cursor:pointer; border-radius:50%; }
+  .hero-row{ display:flex; align-items:center; gap:56px; flex-wrap:wrap; }
+  .hero-text{ flex:1 1 340px; min-width:0; }
+  .osc{ margin:0; flex:0 0 auto; width:212px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .osc canvas{ width:212px; height:212px; display:block; cursor:pointer; border-radius:50%; }
   .osc-cap{ font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.14em;
     text-transform:uppercase; color:var(--muted); text-align:center; line-height:1.6; }
   .osc-cap span{ display:block; white-space:nowrap; }
-  @media (max-width:720px){
-    .hero-row{ gap:26px; }
-    .osc{ width:164px; } .osc canvas{ width:164px; height:164px; }
-  }
 
-
-  .rule-wide{ border:0; border-top:1px solid var(--rule); margin:26px 0 0; }
+  .rule-wide{ border:0; border-top:1px solid var(--rule); margin:40px 0 0; }
 
   /* ---------- body / two columns ---------- */
-  .body{ display:grid; grid-template-columns:264px 1fr; gap:50px; padding:30px 0 0; align-items:start; }
-  .prose p{ margin:0 0 0.95em; }
-  .prose p:first-of-type{ margin-top:0; }
+  .body{ display:grid; grid-template-columns:var(--rail) minmax(0,1fr); gap:56px; padding:40px 0 0; align-items:start; }
+  .prose p{ margin:0 0 1em; text-wrap:pretty; }
   .prose strong{ font-weight:600; }
   .prose em{ font-style:italic; }
   .prose a{ border-bottom:1px solid color-mix(in srgb,var(--accent) 45%,transparent); transition:border-color .2s ease; }
   .prose a:hover{ border-color:var(--accent); }
+  /* drop cap: exact two-line initial where supported; tuned float elsewhere */
   .lede::first-letter{
     font-family:"Fraunces",Georgia,serif; font-weight:500; color:var(--accent);
-    float:left; font-size:3.6em; line-height:.82; padding:.04em .08em 0 0; margin-top:.02em;
+    float:left; font-size:3.35em; line-height:.8; padding:.06em .14em 0 0;
   }
-  .funfact{ color:var(--muted); font-style:italic; font-size:.92rem; margin-top:1.4em; }
-  .funfact a{ color:inherit; border:0; }
+  @supports (initial-letter:2) or (-webkit-initial-letter:2){
+    .lede::first-letter{ float:none; font-size:inherit; line-height:inherit; padding:0; margin-right:.5em;
+      -webkit-initial-letter:2; initial-letter:2; }
+  }
+  .funfact{ color:var(--muted); font-style:italic; font-size:.9rem; margin-top:1.6em; }
 
   /* ---------- about: left identity rail ---------- */
-  .about-rail{ position:sticky; top:88px; }
-  .about-rail .portrait{ width:100%; max-width:170px; height:auto; aspect-ratio:1/1.12;
+  .about-rail{ position:sticky; top:92px; }
+  .about-rail .portrait{ width:100%; height:auto; aspect-ratio:1/1.12;
     object-fit:cover; border:1px solid var(--rule); border-radius:3px; display:block;
-    box-shadow:0 18px 38px -22px rgba(0,0,0,.55); margin-bottom:13px; }
-  .about-rail .block,.about-rail .links{ margin-bottom:13px; padding-bottom:13px;
+    box-shadow:0 1px 2px rgba(0,0,0,.05),0 12px 26px -18px rgba(0,0,0,.4); margin-bottom:18px; }
+  .about-rail .block,.about-rail .links{ margin-bottom:16px; padding-bottom:16px;
     border-bottom:1px solid var(--rule); }
-  .about-rail .entry{ margin:0 0 8px; font-size:12.5px; line-height:1.38; color:var(--ink-soft); }
-  .about-rail .entry:last-child{ margin-bottom:0; }
+  .about-rail .entry{ margin:0; font-size:13.5px; line-height:1.42; color:var(--ink-soft); }
   .about-rail .entry.lead{ color:var(--ink); font-weight:500; }
   /* credentials: hairline between entries */
-  .about-rail .block .entry{ margin:0; }
-  .about-rail .block .entry+.entry{ border-top:1px solid var(--rule-soft); padding-top:9px; margin-top:9px; }
-  .about-rail .k{ display:block; font-family:"IBM Plex Mono",monospace; font-size:9px;
-    letter-spacing:.16em; text-transform:uppercase; color:var(--accent-deep); margin-bottom:3px; }
+  .about-rail .block .entry+.entry{ border-top:1px solid var(--rule-soft); padding-top:11px; margin-top:11px; }
+  .about-rail .k{ display:block; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--accent-deep); margin-bottom:4px; }
   .about-rail .entry .q{ color:var(--muted); }
-  .about-rail .entry a{ color:var(--ink-soft);
-    border-bottom:1px solid color-mix(in srgb,var(--accent) 45%,transparent); }
-  .about-rail .entry a:hover{ color:var(--accent-deep); border-color:var(--accent); }
   .about-rail .links{ display:flex; flex-direction:column; align-items:flex-start; gap:8px;
-    font-family:"IBM Plex Mono",monospace; font-size:11px; }
+    font-family:"IBM Plex Mono",monospace; font-size:12px; }
   .about-rail .links a{ color:var(--muted); }
   .about-rail .links a::before{ content:"\2197"; color:var(--accent); margin-right:8px; }
   .about-rail .links a:hover{ color:var(--ink); }
-  .corr{ font-size:9.5px; line-height:1.6; color:var(--muted); }
+  .corr{ font-size:11px; line-height:1.75; color:var(--muted); }
+  .nw{ white-space:nowrap; }
+  .corr span.addr{ display:block; white-space:nowrap; }
   .corr .at{ color:var(--accent); }
 
   /* ---------- publications ---------- */
   .pubs-head{ display:flex; align-items:flex-end; justify-content:space-between;
-    margin:44px 0 0; padding-bottom:12px; border-bottom:1px solid var(--ink); }
+    margin:88px 0 0; padding-bottom:14px; border-bottom:1px solid var(--ink); }
   .pubs-head h2{ font-family:"Fraunces",Georgia,serif; font-optical-sizing:auto; font-weight:500;
-    font-size:1.7rem; letter-spacing:-.01em; line-height:1.04; margin:0; }
+    font-size:clamp(1.65rem,1.3rem + 1.2vw,2.05rem); letter-spacing:-.012em; line-height:1.04; margin:0; }
   .pubs-head h2 .sub{ display:block; font-family:"Newsreader",Georgia,serif; font-style:italic;
-    font-weight:400; font-size:1.1rem; letter-spacing:0; color:var(--accent-deep); margin-top:3px; }
+    font-weight:400; font-size:1.05rem; letter-spacing:0; color:var(--accent-deep); margin-top:5px; }
   .pubs-head .count{ font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.16em;
     text-transform:uppercase; color:var(--muted); padding-bottom:4px; }
-  #top,#contact,#publications,.pub-section{ scroll-margin-top:88px; }
-  .pub{ display:grid; grid-template-columns:168px 1fr; gap:34px; padding:21px 0;
+  #top,#contact,#publications,.pub-section{ scroll-margin-top:84px; }
+  .pub{ display:grid; grid-template-columns:176px minmax(0,1fr); gap:40px; padding:26px 0;
     border-bottom:1px solid var(--rule); align-items:start; }
   .pub:last-child{ border-bottom:0; }
-  .pub .meta{ grid-column:1; grid-row:1; text-align:left; padding-top:6px; }
+  .pub .meta{ grid-column:1; grid-row:1; text-align:left; padding-top:5px; }
   .pub .body-col{ grid-column:2; grid-row:1; min-width:0; }
   .pub .year{ display:block; font-family:"IBM Plex Mono",monospace; font-size:12px;
     letter-spacing:.12em; color:var(--muted); }
   .pub .venue{ display:block; font-family:"Newsreader",Georgia,serif; font-style:italic;
-    font-weight:500; font-size:1.14rem; line-height:1.28; color:var(--accent-deep); margin:8px 0 0; }
+    font-weight:500; font-size:1.08rem; line-height:1.3; color:var(--accent-deep); margin:8px 0 0; }
   .pub .venue .status{ display:block; font-style:normal; font-family:"IBM Plex Mono",monospace;
-    font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:6px; }
-  .pub .title{ font-family:"Newsreader",Georgia,serif; font-weight:500; font-size:1.26rem;
-    line-height:1.32; margin:0 0 9px; text-wrap:pretty; }
-  .pub .authors{ font-size:.93rem; color:var(--muted); margin:0; line-height:1.55; }
+    font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:7px; }
+  .pub .title{ font-family:"Newsreader",Georgia,serif; font-weight:500; font-size:1.25rem;
+    line-height:1.34; margin:0 0 10px; text-wrap:pretty; }
+  .pub .authors{ font-size:.92rem; color:var(--muted); margin:0; line-height:1.55; }
   .pub .authors .me{ color:var(--ink); font-weight:600; }
-  @media (max-width:600px){
-    .pub{ grid-template-columns:1fr; gap:10px; padding:24px 0; }
-    .pub .meta{ grid-column:1; grid-row:1; padding-top:0; }
-    .pub .body-col{ grid-column:1; grid-row:2; }
-    .pub .venue{ margin-top:3px; }
-    .pub .venue .status{ display:inline; margin:0 0 0 8px; }
-  }
-  .pub-actions{ margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; }
+  .pub-actions{ margin-top:15px; display:flex; flex-wrap:wrap; gap:8px; }
   .pub-actions a{
     display:inline-flex; align-items:center; gap:.5em;
     font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:500;
@@ -256,12 +253,45 @@
 
   footer{ font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
     text-transform:uppercase; color:var(--muted); display:flex; justify-content:space-between;
-    gap:16px; flex-wrap:wrap; padding:28px 0 40px; margin-top:20px; border-top:1px solid var(--rule); }
+    gap:16px; flex-wrap:wrap; padding:28px 0 48px; margin-top:96px; border-top:1px solid var(--rule); }
 
+  /* ---------- tablet ---------- */
+  @media (max-width:900px){
+    :root{ --rail:200px; }
+    .body{ gap:40px; }
+    .corr{ font-size:10px; }
+    .pub{ grid-template-columns:150px minmax(0,1fr); gap:32px; }
+  }
+  /* ---------- phone ---------- */
   @media (max-width:720px){
-    .body{ grid-template-columns:1fr; gap:34px; }
-    .about-rail{ position:static; }
-    .about-rail .portrait{ max-width:200px; }
+    :root{ --gutter:20px; }
+    body{ font-size:16px; }
+    nav.masthead{ padding:10px var(--gutter) 9px; row-gap:9px; }
+    .mast-right{ display:contents; }
+    .masthead .mark{ order:1; }
+    .toggle{ order:2; margin-left:auto; padding:4px 10px; font-size:10.5px; }
+    .navlinks{ order:3; flex-basis:100%; justify-content:space-between; gap:12px; font-size:11px; letter-spacing:.1em; }
+    #top,#contact,#publications,.pub-section{ scroll-margin-top:96px; }
+    .eyebrow{ font-size:11px; letter-spacing:.14em; margin-bottom:12px; }
+    .hero-row{ gap:28px; }
+    .osc{ width:156px; } .osc canvas{ width:156px; height:156px; }
+    .rule-wide{ margin-top:30px; }
+    .body{ grid-template-columns:minmax(0,1fr); gap:30px; padding-top:28px; }
+    .about-rail{ position:static; display:grid; grid-template-columns:clamp(92px,28vw,128px) minmax(0,1fr);
+      column-gap:20px; align-items:start; }
+    .about-rail .portrait{ grid-column:1; grid-row:1; margin:0; }
+    .about-rail .block{ grid-column:2; grid-row:1; margin:0; padding:0; border:0; }
+    .about-rail .links{ grid-column:1 / -1; margin:20px 0 0; padding:13px 0; border-top:1px solid var(--rule); }
+    .about-rail .corr{ grid-column:1 / -1; margin-top:12px; font-size:12px; }
+    .pubs-head{ margin-top:64px; }
+    footer{ margin-top:64px; }
+  }
+  @media (max-width:600px){
+    .pub{ grid-template-columns:minmax(0,1fr); gap:10px; padding:22px 0; }
+    .pub .meta{ grid-column:1; grid-row:1; padding-top:0; }
+    .pub .body-col{ grid-column:1; grid-row:2; }
+    .pub .venue{ margin-top:3px; }
+    .pub .venue .status{ display:inline; margin:0 0 0 8px; }
   }
   @media (prefers-reduced-motion:reduce){
     *{ transition:none !important; scroll-behavior:auto !important; }
@@ -278,8 +308,8 @@
     <div class="mast-right">
       <div class="navlinks">
         <a href="#top" aria-current="page">About</a>
-        <a href="#basic-science" class="stack">Basic Science<span class="np">Publications</span></a>
-        <a href="#clinical" class="stack">Clinical<span class="np">Publications</span></a>
+        <a href="#basic-science">Basic Science</a>
+        <a href="#clinical">Clinical</a>
         <a href="#contact">Contact</a>
       </div>
       <button class="toggle" id="themeToggle" type="button" aria-label="Toggle light or dark theme">
@@ -290,7 +320,7 @@
 
   <main id="main">
     <header class="hero" id="top">
-      <div class="hero-row"><div class="hero-text"><p class="eyebrow">MD/PhD candidate &middot; UCLA&ndash;Caltech MSTP</p>
+      <div class="hero-row"><div class="hero-text"><p class="eyebrow"><span>MD/PhD candidate</span> &middot; <span>UCLA&ndash;Caltech MSTP</span></p>
       <h1 class="name">Arun Chakravorty</h1>
       <p class="tagline">I study how cells coordinate across space and time to build tissue architecture and function, and how the loss of that order underlies disease.</p></div><figure class="osc" title="Coupled cellular clocks. Click to perturb; watch the tissue re-coordinate."><canvas id="oscCanvas" width="208" height="208" role="img" aria-label="Animation: a tissue of coupled cellular clocks self-organizing into a rotating wave"></canvas><figcaption class="osc-cap"><span>coupled clocks</span><span>click to perturb</span></figcaption></figure></div>
     </header>
@@ -301,15 +331,15 @@
       <aside class="about-rail">
         <img class="portrait" src="/assets/img/prof_pic.jpg" width="500" height="560" alt="Arun Chakravorty">
 
-        <div class="block"><p class="entry lead">MD/PhD Candidate, UCLA&ndash;Caltech MSTP</p><p class="entry"><span class="k">MD &middot; in progress</span>UCLA<br><span class="q">Medicine</span></p><p class="entry"><span class="k">PhD &middot; 2025</span>Caltech<br><span class="q">Systems Biology</span></p><p class="entry"><span class="k">BA &middot; 2016</span>Cornell University<br><span class="q">Computational Biology</span></p></div>
+        <div class="block"><p class="entry lead">MD/PhD Candidate, <span class="nw">UCLA&ndash;Caltech MSTP</span></p><p class="entry"><span class="k">MD &middot; in progress</span>UCLA<br><span class="q">Medicine</span></p><p class="entry"><span class="k">PhD &middot; 2025</span>Caltech<br><span class="q">Systems Biology</span></p><p class="entry"><span class="k">BA &middot; 2016</span>Cornell University<br><span class="q">Computational Biology</span></p></div>
 
         <div class="links">
           <a href="https://scholar.google.com/citations?user=EmMH178AAAAJ&hl=en">Google Scholar</a>
         </div>
 
         <div class="corr" id="contact">
-          AChakravorty <span class="at">at</span> mednet dot ucla dot edu<br>
-          chakra <span class="at">at</span> caltech dot edu
+          <span class="addr">AChakravorty <span class="at">at</span> mednet dot ucla dot edu</span>
+          <span class="addr">chakra <span class="at">at</span> caltech dot edu</span>
         </div>
       </aside>
 
@@ -318,7 +348,9 @@
 
         <p>That work left me with a question I now carry into medicine: how structure gives rise to function, and what is lost when that order breaks down. In otolaryngology, that question is immediately human; millimeters decide whether someone hears, speaks, or swallows. It is where I hope to work as a surgeon-scientist, understanding that relationship well enough to give patients back the function they've lost.</p>
 
-        <p class="funfact"><a href="#">Fun</a> fact: if you're in dark mode, the background is raw imaging data of RNA dots across a small part of a tissue section.</p>
+        <p>If you'd ever like to talk science or trade ideas, please feel free to reach out.</p>
+
+        <p class="funfact">Fun fact: if you're in dark mode, the background is raw imaging data of RNA dots across a small part of a tissue section.</p>
       </div>
     </div>
 
@@ -333,7 +365,7 @@
         <div class="body-col">
           <p class="title">The Temporal Architecture of the Seminiferous Epithelial Cycle Revealed by Spatial Transcriptomics</p>
           <p class="authors"><span class="me">A. Chakravorty</span>, J. Yun, H. Amrhein, K. Colon, T. Sato, S. Yoshida, B. D. Simons, L. Cai</p>
-          <div class="pub-actions"><a href="https://www.cell.com/cell/fulltext/S0092-8674%2826%2900471-X">Paper</a><a href="https://www.bbe.caltech.edu/news/single-tissue-snapshot-reveals-biological-processes-unfolding-over-time">Press</a><a href="https://podcasts.apple.com/us/podcast/1090-temporal-architecture-of-seminiferous/id1827948841?i=1000771454707" title="Paper Talk podcast — episode on this paper" class="podcast">Podcast</a></div>
+          <div class="pub-actions"><a href="https://www.cell.com/cell/fulltext/S0092-8674%2826%2900471-X">Paper</a><a href="https://www.bbe.caltech.edu/news/single-tissue-snapshot-reveals-biological-processes-unfolding-over-time">Press</a><a href="https://podcasts.apple.com/us/podcast/1090-temporal-architecture-of-seminiferous/id1827948841?i=1000771454707" title="Paper Talk podcast: an episode on this paper" class="podcast">Podcast</a></div>
         </div>
         <div class="meta"><span class="year">2026</span><p class="venue">Cell</p></div>
       </article>
