@@ -132,8 +132,8 @@
 
   /* ---------- hero ---------- */
   header.hero{ padding:clamp(30px,5vw,60px) 0 8px; }
-  .eyebrow{ font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.2em;
-    text-transform:uppercase; color:var(--accent-deep); margin:0 0 16px; }
+  .eyebrow{ font-family:"Newsreader",Georgia,serif; font-style:italic; font-weight:400;
+    font-size:clamp(1.05rem,.95rem + .4vw,1.2rem); line-height:1.35; color:var(--accent-deep); margin:0 0 8px; text-wrap:balance; }
   .eyebrow span{ white-space:nowrap; }
   h1.name{ font-family:"Fraunces",Georgia,serif; font-optical-sizing:auto; font-weight:500;
     font-size:clamp(2.1rem,1.3rem + 3vw,3.4rem); line-height:1.02; letter-spacing:-.015em;
@@ -272,7 +272,7 @@
     .toggle{ order:2; margin-left:auto; padding:4px 10px; font-size:10.5px; }
     .navlinks{ order:3; flex-basis:100%; justify-content:space-between; gap:12px; font-size:11px; letter-spacing:.1em; }
     #top,#contact,#publications,.pub-section{ scroll-margin-top:96px; }
-    .eyebrow{ font-size:11px; letter-spacing:.14em; margin-bottom:12px; }
+    .eyebrow{ margin-bottom:6px; }
     .hero-row{ gap:28px; }
     .osc{ width:156px; } .osc canvas{ width:156px; height:156px; }
     .rule-wide{ margin-top:30px; }
@@ -320,7 +320,7 @@
 
   <main id="main">
     <header class="hero" id="top">
-      <div class="hero-row"><div class="hero-text"><p class="eyebrow"><span>MD/PhD candidate</span> &middot; <span>UCLA&ndash;Caltech MSTP</span></p>
+      <div class="hero-row"><div class="hero-text"><p class="eyebrow">Hi, welcome to my research page! My name is</p>
       <h1 class="name">Arun Chakravorty</h1>
       <p class="tagline">I study how cells coordinate across space and time to build tissues, and what happens when that order is lost.</p></div><figure class="osc" title="Coupled cellular clocks. Click to perturb; watch the tissue re-coordinate."><canvas id="oscCanvas" width="208" height="208" role="img" aria-label="Animation: a tissue of coupled cellular clocks self-organizing into a rotating wave"></canvas><figcaption class="osc-cap"><span>coupled clocks</span><span>click to perturb</span></figcaption></figure></div>
     </header>
