@@ -115,7 +115,8 @@
   }
   .masthead .mark{ font-family:"Fraunces",Georgia,serif; font-optical-sizing:auto;
     font-weight:500; font-size:16px; letter-spacing:.01em; color:var(--ink); white-space:nowrap; }
-  .mast-right{ display:flex; align-items:center; gap:24px; }
+  .mast-right{ display:contents; }
+  nav.masthead .toggle{ margin-left:auto; }
   .navlinks{ display:flex; align-items:center; gap:24px; font-family:"IBM Plex Mono",monospace;
     font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; }
   .navlinks a{ color:var(--muted); position:relative; padding:3px 0; white-space:nowrap; transition:color .25s ease; }
@@ -266,12 +267,10 @@
   @media (max-width:720px){
     :root{ --gutter:20px; }
     body{ font-size:16px; }
-    nav.masthead{ padding:10px var(--gutter) 9px; row-gap:9px; }
-    .mast-right{ display:contents; }
-    .masthead .mark{ order:1; }
-    .toggle{ order:2; margin-left:auto; padding:4px 10px; font-size:10.5px; }
-    .navlinks{ order:3; flex-basis:100%; justify-content:space-between; gap:12px; font-size:11px; letter-spacing:.1em; }
-    #top,#contact,#publications,.pub-section{ scroll-margin-top:96px; }
+    nav.masthead{ padding:10px var(--gutter); row-gap:8px; column-gap:10px; }
+    .toggle{ padding:4px 9px; font-size:10.5px; }
+    .navlinks{ flex:1 1 auto; justify-content:space-between; gap:10px; font-size:11px; letter-spacing:.06em; }
+    #top,#contact,#publications,.pub-section{ scroll-margin-top:64px; }
     .eyebrow{ margin-bottom:6px; }
     .hero-row{ gap:28px; }
     .osc{ width:156px; } .osc canvas{ width:156px; height:156px; }
@@ -304,7 +303,6 @@
 
 <div class="sheet">
   <nav class="masthead" aria-label="Primary">
-    <a class="mark" href="#top">Arun Chakravorty</a>
     <div class="mast-right">
       <div class="navlinks">
         <a href="#top" aria-current="page">About</a>
