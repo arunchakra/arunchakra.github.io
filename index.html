@@ -172,7 +172,7 @@
 
   /* ---------- about: left identity rail ---------- */
   .about-rail{ position:sticky; top:92px; }
-  .about-rail .portrait{ width:100%; height:auto; aspect-ratio:1/1.12;
+  .about-rail .portrait{ width:100%; max-width:156px; height:auto; aspect-ratio:1/1.12;
     object-fit:cover; border:1px solid var(--rule); border-radius:3px; display:block;
     box-shadow:0 1px 2px rgba(0,0,0,.05),0 12px 26px -18px rgba(0,0,0,.4); margin-bottom:18px; }
   .about-rail .block,.about-rail .links{ margin-bottom:16px; padding-bottom:16px;
@@ -277,7 +277,7 @@
     .osc{ width:156px; } .osc canvas{ width:156px; height:156px; }
     .rule-wide{ margin-top:30px; }
     .body{ grid-template-columns:minmax(0,1fr); gap:30px; padding-top:28px; }
-    .about-rail{ position:static; display:grid; grid-template-columns:clamp(92px,28vw,128px) minmax(0,1fr);
+    .about-rail{ position:static; display:grid; grid-template-columns:clamp(78px,22vw,100px) minmax(0,1fr);
       column-gap:20px; align-items:start; }
     .about-rail .portrait{ grid-column:1; grid-row:1; margin:0; }
     .about-rail .block{ grid-column:2; grid-row:1; margin:0; padding:0; border:0; }
